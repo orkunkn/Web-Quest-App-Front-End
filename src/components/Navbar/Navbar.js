@@ -6,6 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import { LockOpen } from "@mui/icons-material";
 
 const linkStyle = {
     textDecoration: "none",
@@ -15,7 +16,13 @@ const linkStyle = {
 
 function Navbar() {
 
-    let userId = 1;
+    const onClick = () => {
+        localStorage.removeItem("tokenKey")
+        localStorage.removeItem("currentUser")
+        localStorage.removeItem("userName")
+        window.history.go(0)
+    }
+
     return (
         <div>
             <Box sx={{ flexGrow: 1 }}>
@@ -34,9 +41,11 @@ function Navbar() {
                             <Link style={linkStyle} to="/">Home</Link>
                         </Typography>
                         <Typography variant="h6">
-                            <Link style={linkStyle} to={{ pathname: '/users/' + userId }}>User</Link>
+                            {localStorage.getItem("currentUser") == null ? <Link style={linkStyle} to='/auth'>Login/Register</Link> :
+                                <div><IconButton onClick={onClick}><LockOpen></LockOpen></IconButton>
+                                    <Link style={linkStyle} to={{ pathname: '/users/' + localStorage.getItem("currentUser") }}>Profile</Link>
+                                </div>}
                         </Typography>
-                        <Link to={{ pathname: '/users/' + userId }}></Link>
                     </Toolbar>
                 </AppBar>
             </Box>

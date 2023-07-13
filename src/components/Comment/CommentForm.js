@@ -16,7 +16,8 @@ function CommentForm(props) {
             {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": localStorage.getItem("tokenKey")
                 },
                 body: JSON.stringify({
                     postId: postId,
@@ -73,7 +74,7 @@ function CommentForm(props) {
                         </Button>
                     </InputAdornment>
                 }
-                value = {text}
+                value={text}
                 style={{ color: "black", backGroundColor: "white" }}
             ></OutlinedInput>
         </CardContent>
