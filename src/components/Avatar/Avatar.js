@@ -7,11 +7,20 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { ListItemButton, ListItemSecondaryAction, Modal, Radio } from "@mui/material";
 import List from '@mui/material/List';
+import { PutWithAuth } from '../../services/HttpService';
 
 function Avatar(props) {
-    const { avatarId } = props;
+    const { avatarId, userId, userName } = props;
     const [open, setOpen] = useState(false)
     const [selectedValue, setSelectedValue] = useState(avatarId);
+
+    const saveAvatar = () => {
+        PutWithAuth("/users/" + localStorage.getItem("currentUser"), {
+            avatar: selectedValue,
+        })
+            .then((res) => res.json())
+            .catch((err) => console.log(err))
+    }
 
     const handleOpen = () => {
         setOpen(true);
@@ -19,6 +28,7 @@ function Avatar(props) {
 
     const handleClose = () => {
         setOpen(false);
+        saveAvatar();
     };
 
     const handleChange = (event) => {
@@ -36,14 +46,16 @@ function Avatar(props) {
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                        Username
+                        {userName}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                         User info
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button size="small" color="primary" onClick={handleOpen}>Change Avatar</Button>
+                    {localStorage.getItem("currentUser") == userId ? <Button size="small" color="primary" onClick={handleOpen}>
+                        Change Avatar
+                    </Button> : ""}
                 </CardActions>
             </Card>
 

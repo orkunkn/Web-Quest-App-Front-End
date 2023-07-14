@@ -3,7 +3,6 @@ import Post from '../Post/Post';
 import { useState, useEffect } from "react";
 import PostForm from "../Post/PostForm";
 
-
 function Home() {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
@@ -26,7 +25,7 @@ function Home() {
 
     useEffect(() => {
         refreshPosts();
-    }, [postList])
+    }, [])
 
     if (error) {
         return <div> Error!!! </div>;
